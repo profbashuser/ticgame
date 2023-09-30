@@ -1,4 +1,6 @@
+# private files
 **/___**
 
+# Remove output
 out/*
 !*/.keep
