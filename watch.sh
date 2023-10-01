@@ -6,10 +6,12 @@ while true; do
     ATIME=`stat -c %Z src/main.nut`
 
     if [[ "$ATIME" != "$LTIME" ]]; then
-        clear
+        # clear
         source ./build.sh
         LTIME=$ATIME
-    fi
+    else
+		printf "\e[1;93mwatching\n"
+	fi
 
     sleep 5 # update time
 done
