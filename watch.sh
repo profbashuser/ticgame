@@ -6,7 +6,6 @@ while true; do
     ATIME=`stat -c %Z src/main.nut`
 
     if [[ "$ATIME" != "$LTIME" ]]; then
-        # clear
         source ./build.sh
         LTIME=$ATIME
     else

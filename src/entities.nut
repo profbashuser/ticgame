@@ -11,6 +11,9 @@ class BaseEntity {
 		y = newy;
 	}
 
+	// Entity should have tic
+	function tic() {}
+
 	x=0;
 	y=0;
 
