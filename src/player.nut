@@ -11,6 +11,7 @@ class Player extends BaseEntity {
 		if (btn(3)) dx+=speed;
 
 		collisions();
+		bullettic();
 
 		// Apply Friction
 		dy=dy*0.8;
@@ -52,7 +53,83 @@ class Player extends BaseEntity {
 			dy=0
 	}
 
+	function bullettic() {
+		// Direction
+		if (!(btn(0) && btn(1) && btn(2) && btn(3))) {
+			if (!(btn(0) && btn(1))) {
+				if (btn(0)) dir="up";
+				if (btn(1)) dir="down";
+			}
+
+			if (!(btn(2) && btn(3))) {
+				if (btn(2)) dir="left";
+				if (btn(3)) dir="right";
+			}
+		}
+
+		if (frate>0)
+			frate-=1
+		else if (btn(4)) {
+			bullets.append(Bullet("B",dir,x+2,y+2, 5))
+			frate=10
+		}
+
+		foreach (i, val in bullets) {
+			if (val.del) bullets.remove(i)
+			val.tic();
+		}
+	}
+
+	frate=0
+
 	dx=0.0
 	dy=0.0
+
+	dir="up"
+	bullets=[]
+
 	speed = 0.5
+}
+
+class Bullet extends BaseEntity {
+	constructor(ename,edir,px,py,ddmg) {
+		base.constructor(ename, "bullet")
+		dir = edir
+		x=px
+		y=py
+		dmg=ddmg
+	}
+
+	function tic() {
+		// Set dy based on direction
+		switch(dir) {
+			case "up": dy=-speed; break
+			case "left": dx=-speed; break
+			case "down": dy=speed; break
+			case "right": dx=speed; break
+			case "none": del=true; break
+			default: throw "Directory not assigned :("; break;
+		}
+
+		x+=dx
+		y+=dy
+
+		t+=1
+		if (t>lifespan) del=true
+
+		rect(x-cx, y-cy, 2, 2, 4);
+	}
+
+	static lifespan=30
+	static speed = 4
+
+	dmg=5
+
+	dx=0.0
+	dy=0.0
+
+	t=0
+	del=false
+
+	dir=null
 }

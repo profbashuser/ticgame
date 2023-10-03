@@ -14,7 +14,14 @@ function TIC()
 	map(0,0,scsx*2,scsy,-cx,-cy);
 
 	foreach (i, val in entities) {
+		if (val.del) entities.remove(i);
 		val.tic();
+		foreach (bi,bv in player.bullets) {
+			if (val.encollide(bv)) {
+				val.health -= bv.dmg
+				player.bullets.remove(bi)
+			}
+		}
 	}
 
 	player.tic();
@@ -24,19 +31,20 @@ function TIC()
 	local cpy = player.y+4-(scsy/2);
 
 	// Set camera position
-	//cx = lerp(cx,cpx,0.1);
-	//cy = lerp(cy,cpy,0.1);
-	cx=cpx;
-	cy=cpy;
+	cx = lerp(cx,cpx,0.1);
+	cy = lerp(cy,cpy,0.1);
 
 	// Camera bounds
-	if (cx<=0)
-		cx=0;
-	if (cy<=0)
-		cy=0;
+	local bounded = true
+	if (bounded) {
+		if (cx<=0)
+			cx=0;
+		if (cy<=0)
+			cy=0;
 
-	if (cx>scsx*1)
-		cx=scsx*1;
-	if (cy>scsy*1)
-		cy=scsy*1;
+		if (cx>scsx*1)
+			cx=scsx*1;
+		if (cy>scsy*1)
+			cy=scsy*1;
+	}
 }
