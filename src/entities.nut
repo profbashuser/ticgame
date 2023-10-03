@@ -39,9 +39,9 @@ class Enemy extends BaseEntity {
 	}
 
 	function tic() {
-		::print(health,x-cx,y-cy, 1)
 		if (health<=0) del=true
 		spr(256,x-cx,y-cy,0,1);
+		::print(health,x-cx,y-cy, 1)
 	}
 
 	del=false

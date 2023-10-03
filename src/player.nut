@@ -71,7 +71,7 @@ class Player extends BaseEntity {
 			frate-=1
 		else if (btn(4)) {
 			bullets.append(Bullet("B",dir,x+2,y+2, 5))
-			frate=10
+			frate=mfrate
 		}
 
 		foreach (i, val in bullets) {
@@ -81,6 +81,7 @@ class Player extends BaseEntity {
 	}
 
 	frate=0
+	static mfrate=5
 
 	dx=0.0
 	dy=0.0
@@ -115,18 +116,25 @@ class Bullet extends BaseEntity {
 		y+=dy
 
 		t+=1
-		if (t>lifespan) del=true
+		if (t>lifespan ||
+			solid(x+dx,y) || solid(x+7+dx,y) ||
+			solid(x,y+dy) || solid(x,y+7+dy))
+			del=true
 
 		rect(x-cx, y-cy, 2, 2, 4);
 	}
 
-	static lifespan=30
+	// In frames
+	static lifespan=15
 	static speed = 4
 
 	dmg=5
 
 	dx=0.0
 	dy=0.0
+
+	h=4
+	w=4
 
 	t=0
 	del=false
